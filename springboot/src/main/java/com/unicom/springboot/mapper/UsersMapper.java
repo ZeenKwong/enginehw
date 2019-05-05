@@ -1,10 +1,14 @@
-package com.unicom.mapper;
+package com.unicom.springboot.mapper;
 
-import com.unicom.entity.Users;
-import com.unicom.entity.UsersExample;
+import com.unicom.springboot.entity.Users;
+import com.unicom.springboot.entity.UsersExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+//这里只能用mapper，不能用Repository，不然会找不到这个mapper
+@Mapper
 public interface UsersMapper {
     int countByExample(UsersExample example);
 

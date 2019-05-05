@@ -1,4 +1,4 @@
-package com.unicom.entity;
+package com.unicom.springboot.entity;
 
 public class Orderdetail {
     private Integer detailId;

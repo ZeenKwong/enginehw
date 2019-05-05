@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.unicom.mapper.ItemsMapper" >
-  <resultMap id="BaseResultMap" type="com.unicom.entity.Items" >
+<mapper namespace="com.unicom.springboot.mapper.ItemsMapper" >
+  <resultMap id="BaseResultMap" type="com.unicom.springboot.entity.Items" >
     <id column="item_id" property="itemId" jdbcType="INTEGER" />
     <result column="item_name" property="itemName" jdbcType="CHAR" />
     <result column="item_price" property="itemPrice" jdbcType="REAL" />

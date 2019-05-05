@@ -29,7 +29,8 @@
         </javaTypeResolver>
 
         <!-- targetProject:生成PO类的位置 -->
-        <javaModelGenerator targetPackage="com.unicom.entity"
+        <!-- 这里的包名targetPackage要注意跟已有项目统一，不仅会影响生成的路径，还会影响里边的声明-->
+        <javaModelGenerator targetPackage="com.unicom.springboot.entity"
                             targetProject="d:\">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false" />
@@ -37,14 +38,14 @@
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
         <!-- targetProject:mapper映射文件生成的位置 -->
-        <sqlMapGenerator targetPackage="com.unicom.mapper"
+        <sqlMapGenerator targetPackage="com.unicom.springboot.mapper"
                          targetProject="d:\">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
         <!-- targetPackage：mapper接口生成的位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.unicom.mapper"
+                             targetPackage="com.unicom.springboot.mapper"
                              targetProject="d:\">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false" />

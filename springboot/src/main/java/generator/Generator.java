@@ -17,6 +17,8 @@ import java.util.List;
  * @Discription:discription
  */
     public class Generator {
+    //    生成的实体类要注意看看各个类文件头的包名声明是否与实际的对上
+    
     //    方法1：
     //    在此路径下运行以下命令行，可以直接生成相关的实体类和mapper接口类、xml映射文件
     //    java -jar mybatis-generator-core-1.3.2.jar -configfile generatorConfig.xml -overwrite

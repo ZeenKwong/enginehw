@@ -1,10 +1,14 @@
-package com.unicom.mapper;
+package com.unicom.springboot.mapper;
 
-import com.unicom.entity.Items;
-import com.unicom.entity.ItemsExample;
+
 import java.util.List;
+
+import com.unicom.springboot.entity.Items;
+import com.unicom.springboot.entity.ItemsExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface ItemsMapper {
     int countByExample(ItemsExample example);
 

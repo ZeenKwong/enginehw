@@ -1,4 +1,4 @@
-package com.unicom.entity;
+package com.unicom.springboot.entity;
 
 import java.util.ArrayList;
 import java.util.List;
