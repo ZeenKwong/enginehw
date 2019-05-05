@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.unicom.mapper.OrderdetailMapper" >
+  <resultMap id="BaseResultMap" type="com.unicom.entity.Orderdetail" >
+    <id column="detail_id" property="detailId" jdbcType="INTEGER" />
+    <result column="detail_orderid" property="detailOrderid" jdbcType="INTEGER" />
+    <result column="detail_itemid" property="detailItemid" jdbcType="INTEGER" />
+    <result column="detail_itemNum" property="detailItemnum" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    detail_id, detail_orderid, detail_itemid, detail_itemNum
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.unicom.entity.OrderdetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from orderdetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderdetail
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orderdetail
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.unicom.entity.OrderdetailExample" >
+    delete from orderdetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.unicom.entity.Orderdetail" >
+    insert into orderdetail (detail_id, detail_orderid, detail_itemid, 
+      detail_itemNum)
+    values (#{detailId,jdbcType=INTEGER}, #{detailOrderid,jdbcType=INTEGER}, #{detailItemid,jdbcType=INTEGER}, 
+      #{detailItemnum,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.unicom.entity.Orderdetail" >
+    insert into orderdetail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="detailId != null" >
+        detail_id,
+      </if>
+      <if test="detailOrderid != null" >
+        detail_orderid,
+      </if>
+      <if test="detailItemid != null" >
+        detail_itemid,
+      </if>
+      <if test="detailItemnum != null" >
+        detail_itemNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="detailId != null" >
+        #{detailId,jdbcType=INTEGER},
+      </if>
+      <if test="detailOrderid != null" >
+        #{detailOrderid,jdbcType=INTEGER},
+      </if>
+      <if test="detailItemid != null" >
+        #{detailItemid,jdbcType=INTEGER},
+      </if>
+      <if test="detailItemnum != null" >
+        #{detailItemnum,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.unicom.entity.OrderdetailExample" resultType="java.lang.Integer" >
+    select count(*) from orderdetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update orderdetail
+    <set >
+      <if test="record.detailId != null" >
+        detail_id = #{record.detailId,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailOrderid != null" >
+        detail_orderid = #{record.detailOrderid,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailItemid != null" >
+        detail_itemid = #{record.detailItemid,jdbcType=INTEGER},
+      </if>
+      <if test="record.detailItemnum != null" >
+        detail_itemNum = #{record.detailItemnum,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update orderdetail
+    set detail_id = #{record.detailId,jdbcType=INTEGER},
+      detail_orderid = #{record.detailOrderid,jdbcType=INTEGER},
+      detail_itemid = #{record.detailItemid,jdbcType=INTEGER},
+      detail_itemNum = #{record.detailItemnum,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.unicom.entity.Orderdetail" >
+    update orderdetail
+    <set >
+      <if test="detailOrderid != null" >
+        detail_orderid = #{detailOrderid,jdbcType=INTEGER},
+      </if>
+      <if test="detailItemid != null" >
+        detail_itemid = #{detailItemid,jdbcType=INTEGER},
+      </if>
+      <if test="detailItemnum != null" >
+        detail_itemNum = #{detailItemnum,jdbcType=CHAR},
+      </if>
+    </set>
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.unicom.entity.Orderdetail" >
+    update orderdetail
+    set detail_orderid = #{detailOrderid,jdbcType=INTEGER},
+      detail_itemid = #{detailItemid,jdbcType=INTEGER},
+      detail_itemNum = #{detailItemnum,jdbcType=CHAR}
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </update>
+</mapper>
