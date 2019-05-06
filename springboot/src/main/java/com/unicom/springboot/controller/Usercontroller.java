@@ -3,10 +3,12 @@ package com.unicom.springboot.controller;
 import com.unicom.springboot.entity.Users;
 import com.unicom.springboot.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName：Usercontroller
@@ -25,6 +27,11 @@ public class Usercontroller {
         user.setUserName("zeentest");
         user.setUserBirthday(new Date());
         return userService.addUserXml(user);
+    }
+
+    @RequestMapping("/findUsersxml/{page}/{rows}")
+    public List<Users> findUsersxml(@PathVariable int page,@PathVariable int rows){
+        return userService.findUsers(page,rows);
     }
 
 }

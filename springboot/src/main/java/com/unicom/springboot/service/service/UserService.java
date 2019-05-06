@@ -3,6 +3,8 @@ package com.unicom.springboot.service.service;
 
 import com.unicom.springboot.entity.Users;
 
+import java.util.List;
+
 /**
  * @ClassName：UserService
  * @Author：kuangzy
@@ -10,5 +12,9 @@ import com.unicom.springboot.entity.Users;
  * @Discription:discription
  */
 public interface UserService {
+    //添加用户
     int addUserXml(Users user);
+
+    //分页查询
+    List<Users> findUsers(int page,int rows);
 }

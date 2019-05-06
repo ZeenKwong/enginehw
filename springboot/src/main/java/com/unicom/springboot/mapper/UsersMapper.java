@@ -6,8 +6,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-//这里只能用mapper，不能用Repository，不然会找不到这个mapper
+@Repository
 @Mapper
 public interface UsersMapper {
     int countByExample(UsersExample example);

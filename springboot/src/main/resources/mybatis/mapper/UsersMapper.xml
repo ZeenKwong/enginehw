@@ -69,7 +69,7 @@
   <sql id="Base_Column_List" >
     user_id, user_name, user_birthday, user_sex, user_address
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.unicom.entity.UsersExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.unicom.springboot.entity.UsersExample" >
     select
     <if test="distinct" >
       distinct
@@ -93,19 +93,19 @@
     delete from users
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.unicom.entity.UsersExample" >
+  <delete id="deleteByExample" parameterType="com.unicom.springboot.entity.UsersExample" >
     delete from users
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.unicom.entity.Users" >
+  <insert id="insert" parameterType="com.unicom.springboot.entity.Users" >
     insert into users (user_id, user_name, user_birthday, 
       user_sex, user_address)
     values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=CHAR}, #{userBirthday,jdbcType=TIMESTAMP}, 
       #{userSex,jdbcType=CHAR}, #{userAddress,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.unicom.entity.Users" >
+  <insert id="insertSelective" parameterType="com.unicom.springboot.entity.Users" >
     insert into users
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -142,7 +142,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.unicom.entity.UsersExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.unicom.springboot.entity.UsersExample" resultType="java.lang.Integer" >
     select count(*) from users
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -182,7 +182,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.unicom.entity.Users" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.unicom.springboot.entity.Users" >
     update users
     <set >
       <if test="userName != null" >
@@ -200,7 +200,7 @@
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.unicom.entity.Users" >
+  <update id="updateByPrimaryKey" parameterType="com.unicom.springboot.entity.Users" >
     update users
     set user_name = #{userName,jdbcType=CHAR},
       user_birthday = #{userBirthday,jdbcType=TIMESTAMP},

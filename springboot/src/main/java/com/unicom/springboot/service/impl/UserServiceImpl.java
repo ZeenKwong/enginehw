@@ -1,10 +1,14 @@
 package com.unicom.springboot.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.unicom.springboot.entity.Users;
+import com.unicom.springboot.entity.UsersExample;
 import com.unicom.springboot.mapper.UsersMapper;
 import com.unicom.springboot.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @ClassName：UserServiceImpl
@@ -14,11 +18,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UsersMapper userMapper;
 
     @Override
     public int addUserXml(Users user) {
         return userMapper.insert(user);
+    }
+
+    @Override
+    public List<Users> findUsers(int page, int rows) {
+        UsersExample example = new UsersExample();
+        PageHelper.startPage(page,rows);
+        List<Users> users = userMapper.selectByExample(example);
+        return users;
     }
 }

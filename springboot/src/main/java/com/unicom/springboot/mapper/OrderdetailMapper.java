@@ -1,13 +1,11 @@
 package com.unicom.springboot.mapper;
 
 import com.unicom.springboot.entity.Orderdetail;
-
+import com.unicom.springboot.entity.OrderdetailExample;
 import java.util.List;
 
-import com.unicom.springboot.entity.OrderdetailExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 @Mapper
 public interface OrderdetailMapper {
     int countByExample(OrderdetailExample example);
