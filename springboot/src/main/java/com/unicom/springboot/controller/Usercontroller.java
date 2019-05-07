@@ -34,4 +34,14 @@ public class Usercontroller {
         return userService.findUsers(page,rows);
     }
 
+    @RequestMapping("/findAllUser")
+    public List<Users> findAllUser(){
+        return userService.findAllUser();
+    }
+
+    @RequestMapping("/deleteUserByPrimaryKey/{userId}")
+    public int deleteUserByPrimaryKey(@PathVariable int userId){
+        return userService.deleteUserByPrimaryKey(userId);
+    }
+
 }

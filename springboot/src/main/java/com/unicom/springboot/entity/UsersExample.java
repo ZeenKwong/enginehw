@@ -5,6 +5,20 @@ import java.util.Date;
 import java.util.List;
 
 public class UsersExample {
+
+    //升序还是降序
+    //参数格式：字段+空格+asc(desc)
+    //protected String orderByClause;
+    //去除重复
+    //true是选择不重复记录
+    //protected boolean distinct;
+    //自定义查询条件
+    //Criteria的集合，集合中对象是由or连接
+    //protected List<Criteria> oredCriteria;
+    //内部类Criteria包含一个Cretiron的集合，
+    //每一个Criteria对象内包含的Cretiron之间
+    //是由AND连接的
+
     protected String orderByClause;
 
     protected boolean distinct;

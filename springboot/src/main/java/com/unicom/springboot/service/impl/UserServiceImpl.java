@@ -34,4 +34,16 @@ public class UserServiceImpl implements UserService {
         List<Users> users = userMapper.selectByExample(example);
         return users;
     }
+
+    @Override
+    public List<Users> findAllUser() {
+        UsersExample example = new UsersExample();
+        List<Users> users = userMapper.selectByExample(example);
+        return users;
+    }
+
+    @Override
+    public int deleteUserByPrimaryKey(int userId) {
+        return userMapper.deleteByPrimaryKey(userId);
+    }
 }
