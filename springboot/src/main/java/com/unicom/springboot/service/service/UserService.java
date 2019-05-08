@@ -23,4 +23,7 @@ public interface UserService {
 
     //删除指定
     int deleteUserByPrimaryKey(int userId);
+
+    //更新用户信息
+    int updateUserInfo();
 }
