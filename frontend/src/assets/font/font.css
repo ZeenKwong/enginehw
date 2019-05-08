@@ -1,0 +1,5 @@
+/* 引入一个字体就写一个font-face */
+@font-face{
+    font-family: JfDotMPlus;
+    src: url('JF-Dot-MPlus12.ttf');
+}

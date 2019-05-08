@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService {
     public int deleteUserByPrimaryKey(int userId) {
         return userMapper.deleteByPrimaryKey(userId);
     }
+
+    @Override
+    public int updateUserInfo() {
+        return 0;
+    }
 }
