@@ -3,9 +3,7 @@ package com.unicom.springboot.controller;
 import com.unicom.springboot.entity.Users;
 import com.unicom.springboot.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -21,12 +19,21 @@ public class Usercontroller {
     @Autowired
     public UserService userService;
 
-    @RequestMapping("/addUser")
-    public int addUser(){
+    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
+    public int addUser(@RequestBody Users users){
         Users user = new Users();
-        user.setUserName("zeentest");
+        user.setUserName(users.getUserName());
         user.setUserBirthday(new Date());
         return userService.addUserXml(user);
+    }
+
+    @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
+    public int updateUser(@RequestBody Users users){
+        Users user = new Users();
+        user.setUserId(users.getUserId());
+        user.setUserName(users.getUserName());
+//        user.setUserBirthday(new Date());
+        return userService.updateUserInfo(user);
     }
 
     @RequestMapping("/findUsersxml/{page}/{rows}")

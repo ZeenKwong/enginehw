@@ -25,5 +25,5 @@ public interface UserService {
     int deleteUserByPrimaryKey(int userId);
 
     //更新用户信息
-    int updateUserInfo();
+    int updateUserInfo(Users users);
 }
