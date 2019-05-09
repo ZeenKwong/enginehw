@@ -23,7 +23,9 @@ public class Usercontroller {
     public int addUser(@RequestBody Users users){
         Users user = new Users();
         user.setUserName(users.getUserName());
-        user.setUserBirthday(new Date());
+        user.setUserSex(users.getUserSex());
+        user.setUserAddress(users.getUserAddress());
+        user.setUserBirthday(user.getUserBirthday());
         return userService.addUserXml(user);
     }
 
@@ -32,7 +34,9 @@ public class Usercontroller {
         Users user = new Users();
         user.setUserId(users.getUserId());
         user.setUserName(users.getUserName());
-//        user.setUserBirthday(new Date());
+        user.setUserSex(users.getUserSex());
+        user.setUserAddress(users.getUserAddress());
+        user.setUserBirthday(user.getUserBirthday());
         return userService.updateUserInfo(user);
     }
 
