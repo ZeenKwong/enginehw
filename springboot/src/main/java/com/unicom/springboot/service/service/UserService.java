@@ -19,7 +19,7 @@ public interface UserService {
     List<Users> findUsers(int page,int rows);
 
     //查询全部
-    List<Users> findAllUser();
+    List<Users> findAllUser(int userId);
 
     //删除指定
     int deleteUserByPrimaryKey(int userId);
