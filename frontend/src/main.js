@@ -13,6 +13,11 @@ axios.defaults.baseURL = "http://127.0.0.1:8080/"
 import storage from '@/assets/js/storage';
 Vue.prototype.$storage = storage
 
+//引入饿了么样式
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI)
+
 new Vue({
   router,
   store,
