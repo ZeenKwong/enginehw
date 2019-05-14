@@ -33,7 +33,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int addOrder(Orders orders) {
-        return ordersMapper.insert(orders);
+        ordersMapper.insert(orders);
+        return orders.getOrderId();
     }
 
     @Override

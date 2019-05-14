@@ -1,12 +1,15 @@
 package com.unicom.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Users {
     private Integer userId;
 
     private String userName;
-
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date userBirthday;
 
     private String userSex;

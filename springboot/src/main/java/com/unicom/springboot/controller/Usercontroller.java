@@ -25,7 +25,7 @@ public class Usercontroller {
         user.setUserName(users.getUserName());
         user.setUserSex(users.getUserSex());
         user.setUserAddress(users.getUserAddress());
-        user.setUserBirthday(user.getUserBirthday());
+        user.setUserBirthday(users.getUserBirthday());
         return userService.addUserXml(user);
     }
 
@@ -36,7 +36,7 @@ public class Usercontroller {
         user.setUserName(users.getUserName());
         user.setUserSex(users.getUserSex());
         user.setUserAddress(users.getUserAddress());
-        user.setUserBirthday(user.getUserBirthday());
+        user.setUserBirthday(users.getUserBirthday());
         return userService.updateUserInfo(user);
     }
 

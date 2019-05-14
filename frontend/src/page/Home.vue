@@ -1,12 +1,13 @@
 <template>
-  <div>
-    <div class="nes-container is-centered containcustom" style="margin:5%;">
+  <div >
+    <div class="bg"></div>
+    <div class="nes-container is-centered" style="margin:5%;height:30rem;borderColor:transparent;">
       <i class="nes-kirby"></i>
-      <div class="title" style="fontSize:7rem;color:rgb(57,114,206)" >物资取用登记系统</div>
+      <div class="title" style="fontSize:9rem;color:#fff;marginBottom:5rem;" >物资取用登记系统</div>
       <el-row type="flex" justify="center">
-        <el-col :span="6"><div class="nes-btn is-size-1 is-warning" @click="findAllUser">全部用户</div></el-col>
-        <el-col :span="6"><div class="nes-btn is-size-1 is-success" @click="createOrder">新取用</div></el-col>
-        <el-col :span="6"><div class="nes-btn is-size-1 is-error" @click="findAllOrders">历史记录</div></el-col>
+        <el-col :span="6"><div class="nes-btn is-size-1 is-warning" style="width:15rem;" @click="findAllUser">全部用户</div></el-col>
+        <el-col :span="6"><div class="nes-btn is-size-1 is-success" style="width:15rem;" @click="createOrder">新取用</div></el-col>
+        <el-col :span="6"><div class="nes-btn is-size-1 is-error" style="width:15rem;" @click="findAllOrders">历史记录</div></el-col>
       </el-row>
     </div>
   </div>
@@ -34,8 +35,16 @@ export default {
   }
 };
 </script>
-<style scope>
+<style scoped>
 el-col div{
   margin: 1rem;
+}
+.bg{
+  background-image: url("../assets/jpg/background.png");
+  background-size: 100% 100%;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  top: 0;
 }
 </style>

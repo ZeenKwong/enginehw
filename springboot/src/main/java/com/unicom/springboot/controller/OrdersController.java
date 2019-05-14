@@ -5,6 +5,7 @@ import com.unicom.springboot.service.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class OrdersController {
     @RequestMapping(value = "/addorder",method = RequestMethod.POST)
     public int addOrder(@RequestBody Orders orders){
         Orders order = new Orders();
-        order.setCreatetime(orders.getCreatetime());
+        order.setCreatetime(new Date());
         order.setOrderGoodscount(orders.getOrderGoodscount());
         order.setOrderNote(orders.getOrderNote());
         order.setOrderUserid(orders.getOrderUserid());

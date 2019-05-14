@@ -5,6 +5,7 @@ import com.unicom.springboot.service.service.ItemsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class ItemsController {
     @RequestMapping(value = "/addItem",method = RequestMethod.POST)
     public int addItem(@RequestBody Items items){
         Items items1 = new Items();
-        items1.setCreatetime(items.getCreatetime());
+        items1.setCreatetime(new Date());
         items1.setItemDetail(items.getItemDetail());
         items1.setItemName(items.getItemName());
         items1.setItemPic(items.getItemPic());

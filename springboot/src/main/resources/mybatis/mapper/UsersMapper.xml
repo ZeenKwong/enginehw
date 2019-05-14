@@ -104,6 +104,9 @@
       user_sex, user_address)
     values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=CHAR}, #{userBirthday,jdbcType=TIMESTAMP}, 
       #{userSex,jdbcType=CHAR}, #{userAddress,jdbcType=CHAR})
+      <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
+        SELECT LAST_INSERT_ID()
+      </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="com.unicom.springboot.entity.Users" >
     insert into users
