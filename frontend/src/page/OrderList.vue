@@ -12,7 +12,8 @@
       </div>
 
       <div class="is-size-1" style="marginBottom:1rem;" :style="{display:userFlag}">
-        <hr>用户<span style="color:#209cee;">&nbsp;{{userOrder}}&nbsp;</span>的全部订单
+        <hr>用户
+        <span style="color:#209cee;">&nbsp;{{userOrder}}&nbsp;</span>的全部订单
         <hr>
       </div>
 
@@ -38,7 +39,7 @@
             <td>{{item.createtime}}</td>
             <td>{{item.orderNote}}</td>
             <td style="textAlign: center;">
-              <div class="nes-btn is-size-1 is-error" @click="findUserOrder(item.orderUserid)">查看详情</div>
+              <div class="nes-btn is-size-1 is-error" @click="findUserOrder(item.orderId)">查看详情</div>
             </td>
           </tr>
         </tbody>
@@ -79,9 +80,16 @@ export default {
         params: { userName: this.userOrder, itemInfoFlag: "none" }
       });
     },
-    findUserOrder(orderUserid) {
-      console.log(orderUserid);
-      this.$router.push("/Items");
+    findUserOrder(orderId) {
+      let url = "/findorderdetail/" + orderId;
+      this.$ajax.post(url).then(response => {
+        //   console.log(response);
+          
+        this.$router.push({
+          name: "Items",
+          params: { detailList: response.data }
+        });
+      });
     }
   }
 };

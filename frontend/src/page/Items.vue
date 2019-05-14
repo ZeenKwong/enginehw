@@ -37,7 +37,11 @@
         </div>
       </div>
       <!-- 是修改订单就不显示物资变更 -->
-      <div class="nes-container with-title" style="marginBottom:1rem;" :style="{display:itemInfoFlag}">
+      <div
+        class="nes-container with-title"
+        style="marginBottom:1rem;"
+        :style="{display:itemInfoFlag}"
+      >
         <span class="title" style="color:#e76e55;fontSize:2rem;">物资变更</span>
         <div style="margin:10px;">
           <span style="fontSize:2rem;">名称：</span>
@@ -88,28 +92,34 @@ export default {
         itemDetail: "请输入物资描述"
       },
       summitUrl: "/addItem",
-      userName:this.$route.params.userName || "请填写用户姓名",
-      itemInfoFlag:this.$route.params.itemInfoFlag ||"show",
-      orderTemp:{
-          orderUserid:0,
-            //物资总数
-          orderGoodscount:0,
-            //物资总额
-          orderNote:0
-      },
-      detailTemp:{
-          detailOrderid:0,
-          detailItemid:0,
-          detailItemnum:''
+      userName: this.$route.params.userName || "请填写用户姓名",
+      itemInfoFlag: this.$route.params.itemInfoFlag || "show",
+      detailTemp: {
+        detailOrderid: 0,
+        detailItemid: 0,
+        detailItemnum: ""
       }
     };
   },
   mounted() {
-    // this.allItems = this.$storage.get("allItems");
-    
+    let arrTemp = this.$route.params.detailList;
+    let judgeFlag = false;
+    if (typeof arrTemp != "undefined" && arrTemp.length != 0) {
+      judgeFlag = true;
+    }
     for (let index = 0; index < this.allItems.length; index++) {
       this.itemCount.push(0);
+
+      if (judgeFlag) {
+        arrTemp.forEach(element => {
+          if (this.allItems[index].itemId == element.detailItemid) {
+            this.itemCount[index] = element.detailItemnum;
+          }
+        });
+      }
     }
+    console.log(this.itemCount);
+    
   },
   methods: {
     routerBack() {
@@ -170,34 +180,46 @@ export default {
         this.reflash();
       });
     },
-    creatOrder(){
-        for (let index = 0; index < this.allItems.length; index++) {
-            this.orderTemp.orderNote += (this.allItems[index].itemPrice * this.itemCount[index]);
-            this.orderTemp.orderGoodscount += this.itemCount[index];
+    forAjax(params) {
+      let paramsTemp = {
+        detailOrderid: params[0]["detailOrderid"],
+        detailItemid: params[0]["itemId"],
+        detailItemnum: params[0]["itemCount"]
+      };
+      this.$ajax.post("/addorderdetail", paramsTemp).then(response => {
+        console.log(response);
+
+        params.shift();
+        if (params.length == 0) {
+          return;
         }
-        let userTemp = {userName:this.userName};
-        this.$ajax.post("/addUser",userTemp).then(response => {
-            this.orderTemp.orderUserid = response.data;
-            this.$ajax.post("/addorder",this.orderTemp).then(response => {
-                this.detailTemp.detailOrderid = response.data;
-                for (let index = 0; index < this.allItems.length; index++) {
-                    if (this.itemCount[index] != 0) {
-                        this.detailTemp.detailItemid = this.allItems[index].itemId;
-                        this.detailTemp.detailItemnum = this.itemCount[index];
-                        this.$ajax.post("/addorderdetail",this.detailTemp).then(response => {
-                            if (response != 0) {
-                                console.log('创建成功');
-                                
-                            } else {
-                                console.log('创建失败');
-                                
-                            }
-                        });
-                    }
-                    
-                }
-            })
-        })
+        this.forAjax(params);
+      });
+    },
+    creatOrder() {
+      let userTemp = { userName: this.userName };
+      this.$ajax.post("/addUser", userTemp).then(response => {
+        let orderTemp = {};
+        for (let index = 0; index < this.allItems.length; index++) {
+          orderTemp["orderNote"] +=
+            this.allItems[index].itemPrice * this.itemCount[index];
+          orderTemp["orderGoodscount"] += this.itemCount[index];
+        }
+        orderTemp["orderUserid"] = response.data;
+        this.$ajax.post("/addorder", orderTemp).then(response => {
+          let arrAjax = [];
+          for (let index = 0; index < this.allItems.length; index++) {
+            let arrAjax2 = {};
+            if (this.itemCount[index] != 0) {
+              arrAjax2["itemId"] = this.allItems[index].itemId;
+              arrAjax2["itemCount"] = this.itemCount[index];
+              arrAjax2["detailOrderid"] = response.data;
+              arrAjax.push(arrAjax2);
+            }
+          }
+          this.forAjax(arrAjax);
+        });
+      });
     }
   }
 };
