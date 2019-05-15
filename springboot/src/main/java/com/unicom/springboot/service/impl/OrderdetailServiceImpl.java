@@ -26,7 +26,10 @@ public class OrderdetailServiceImpl implements OrderdetailService {
 
     @Override
     public int delOrderDetail(int orderId) {
-        return orderdetailMapper.deleteByPrimaryKey(orderId);
+        OrderdetailExample orderdetailExample = new OrderdetailExample();
+        OrderdetailExample.Criteria criteria = orderdetailExample.createCriteria();
+        criteria.andDetailOrderidEqualTo(orderId);
+        return orderdetailMapper.deleteByExample(orderdetailExample);
     }
 
     @Override

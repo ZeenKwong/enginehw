@@ -43,7 +43,7 @@ public class OrdersController {
     public int updateOrder(@RequestBody Orders orders){
         Orders order = new Orders();
         order.setOrderId(orders.getOrderId());
-        order.setCreatetime(orders.getCreatetime());
+        order.setCreatetime(new Date());
         order.setOrderGoodscount(orders.getOrderGoodscount());
         order.setOrderNote(orders.getOrderNote());
         order.setOrderUserid(orders.getOrderUserid());

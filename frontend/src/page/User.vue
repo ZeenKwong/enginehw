@@ -1,15 +1,8 @@
 <template>
   <div>
-    <!-- <div class="nes-container">
-            <button type="button" class="nes-btn is-primary" @click="showdialog">弹窗测试</button>
-            
-    </div>-->
-    <!-- <hr> -->
     <div class="bg"></div>
-
     <div class="nes-container with-title is-centered" style="margin:5%;backgroundColor:#fff;">
       <span class="title" style="fontSize:3rem;color:#f7d51d;">☆ 取用物资人员 ☆</span>
-
       <div style="display:flex;justify-content:space-between;margin:1rem;">
         <div class="nes-btn is-size-1" style="width:25rem" @click="routerBack">返回</div>
         <div class="nes-btn is-size-1 is-primary" style="width:25rem" @click="getOrderList">用户订单</div>
@@ -136,7 +129,8 @@ export default {
             name: "orderlist",
             params: {
               userFlag: "show",
-              userOrder: this.allUsers[this.selectFlag].userName
+              userOrder: this.allUsers[this.selectFlag].userName,
+              userId: this.allUsers[this.selectFlag].userId
             }
           });
         });

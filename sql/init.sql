@@ -1,6 +1,6 @@
 
-CREATE DATABASE engineproject;
-USE engineproject;
+-- CREATE DATABASE engineproject;
+-- USE engineproject;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`(
 	user_id INT NOT NULL AUTO_INCREMENT,
@@ -13,7 +13,7 @@ CREATE TABLE `users`(
 INSERT INTO `users`(user_name,user_birthday,user_sex,user_address)VALUES('宋乔安','1983-06-21','女','台湾台北'),('刘昭国','1982-07-11','男','台湾高雄'),('王赦','1988-03-1','男','内蒙呼和浩特'),('丁美媚','1990-07-11','女','湖南长沙'),('林一骏','1990-07-21','男','广东揭阳');
 INSERT INTO `users`(user_name,user_birthday,user_sex,user_address)VALUES('李大芝','1993-06-21','女','安徽合肥'),('廖纽世','1972-09-11','男','吉林吉林'),('应思悦','1988-03-11','女','新疆维吾尔'),('应思聪','1990-05-11','男','湖北武汉'),('宋乔平','1991-08-11','女','广东东莞');
 
-SELECT * FROM `users`;
+-- SELECT * FROM `users`;
 
 ###############
 
@@ -41,7 +41,7 @@ VALUES
 	('快客杯','199','2014-01-22','情无价'),
 	('武则天','2000','2014-05-29','那个女人')
 	;
-SELECT * FROM items;
+-- SELECT * FROM items;
 
 ###############
 
@@ -56,7 +56,7 @@ CREATE TABLE orders(
 );
 INSERT INTO orders (order_userid)
 VALUES (2),(5),(3),(8),(1),(9),(4),(7),(6),(10),(10),(10),(3),(2),(5),(5),(5),(4),(7),(9);
-SELECT * FROM orders;
+-- SELECT * FROM orders;
 
 ###############
 
@@ -111,4 +111,4 @@ VALUES
 	('9','3','1'),
 	('4','1','2')
 	;
-SELECT * FROM orderdetail;
+-- SELECT * FROM orderdetail;

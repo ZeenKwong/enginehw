@@ -1,14 +1,13 @@
 <template>
   <div>
     <div class="bg"></div>
-
     <div class="nes-container with-title is-centered" style="margin:5%;backgroundColor:#fff;">
       <span class="title" style="fontSize:3rem;color:#92cc41;">☆ 可取用物资 ☆</span>
       <!-- 如果是修改订单就展示 -->
       <div
         class="is-size-1"
         style="color:#209cee;textAlign:left;marginBottom:1rem;"
-        :style="{display:orderIdFlag}"
+        v-show="showFlag"
       >订单编号: {{orderId}}</div>
       <div
         class="nes-container"
@@ -37,11 +36,7 @@
         </div>
       </div>
       <!-- 是修改订单就不显示物资变更 -->
-      <div
-        class="nes-container with-title"
-        style="marginBottom:1rem;"
-        :style="{display:itemInfoFlag}"
-      >
+      <div class="nes-container with-title" style="marginBottom:1rem;" v-show="!showFlag">
         <span class="title" style="color:#e76e55;fontSize:2rem;">物资变更</span>
         <div style="margin:10px;">
           <span style="fontSize:2rem;">名称：</span>
@@ -72,8 +67,15 @@
       <div
         class="nes-btn is-size-1 is-success"
         style="width:100%;marginBottom:1rem;"
-        @click="creatOrder"
+        @click="save"
+        v-show="saveBtn"
       >保存</div>
+      <div
+        class="nes-btn is-size-1 is-error"
+        style="width:100%;marginBottom:1rem;"
+        @click="expireDel"
+        v-show="!saveBtn"
+      >删除</div>
       <div class="nes-btn is-size-1" style="width:100%;" @click="routerBack">返回</div>
     </div>
   </div>
@@ -84,21 +86,21 @@ export default {
     return {
       allItems: this.$storage.get("allItems"),
       itemCount: [],
-      orderId: "2",
-      orderIdFlag: "none",
+      orderId: "New Order",
+      showFlag: false,
       itemInfo: {
         itemName: "请输入物资名称",
         itemPrice: "请输入物资价格（单位：元）",
         itemDetail: "请输入物资描述"
       },
       summitUrl: "/addItem",
-      userName: this.$route.params.userName || "请填写用户姓名",
-      itemInfoFlag: this.$route.params.itemInfoFlag || "show",
+      userName: "请输入用户姓名",
       detailTemp: {
         detailOrderid: 0,
         detailItemid: 0,
         detailItemnum: ""
-      }
+      },
+      saveBtn: true
     };
   },
   mounted() {
@@ -109,7 +111,6 @@ export default {
     }
     for (let index = 0; index < this.allItems.length; index++) {
       this.itemCount.push(0);
-
       if (judgeFlag) {
         arrTemp.forEach(element => {
           if (this.allItems[index].itemId == element.detailItemid) {
@@ -118,15 +119,28 @@ export default {
         });
       }
     }
-    console.log(this.itemCount);
-    
+    //这里跟上面的要分开，用以兼容选定用户新增订单的情况
+    if (this.$route.params.userName > 0) {
+      this.$storage.get("allUsers").forEach(element => {
+        if (element.userId == this.$route.params.userName) {
+          this.userName = element.userName;
+        }
+      });
+      if (this.$route.params.orderId > 0) {
+        this.orderId = this.$route.params.orderId;
+      }
+      this.showFlag = true;
+    }
+    if (typeof this.orderId == "number" && this.userName == "请输入用户姓名") {
+      this.saveBtn = false;
+    }
   },
   methods: {
     routerBack() {
       this.$router.push("/");
     },
     additonCount(index) {
-      this.$set(this.itemCount, index, this.itemCount[index] + 1);
+      this.$set(this.itemCount, index, parseInt(this.itemCount[index]) + 1);
     },
     subtractionCount(index) {
       this.$set(this.itemCount, index, this.itemCount[index] - 1);
@@ -181,16 +195,29 @@ export default {
       });
     },
     forAjax(params) {
+      if (params.length < 1) {
+        // this.orderId = response.data;
+        let url = "/deleteorder/" + this.orderId;
+        this.$ajax.post(url).then(res => {
+          if (res.data == 1) {
+            console.log("删除成功");
+          }
+          this.$router.push("/");
+        });
+        return;
+      }
       let paramsTemp = {
         detailOrderid: params[0]["detailOrderid"],
         detailItemid: params[0]["itemId"],
         detailItemnum: params[0]["itemCount"]
       };
       this.$ajax.post("/addorderdetail", paramsTemp).then(response => {
-        console.log(response);
-
+        if (response.data == 1) {
+          console.log("成功插入一条");
+        }
         params.shift();
         if (params.length == 0) {
+          this.$router.push("/");
           return;
         }
         this.forAjax(params);
@@ -199,25 +226,93 @@ export default {
     creatOrder() {
       let userTemp = { userName: this.userName };
       this.$ajax.post("/addUser", userTemp).then(response => {
-        let orderTemp = {};
-        for (let index = 0; index < this.allItems.length; index++) {
-          orderTemp["orderNote"] +=
-            this.allItems[index].itemPrice * this.itemCount[index];
-          orderTemp["orderGoodscount"] += this.itemCount[index];
-        }
+        let orderTemp = {
+          orderNote: 0,
+          orderGoodscount: 0
+        };
+        this.sumCount(orderTemp);
         orderTemp["orderUserid"] = response.data;
         this.$ajax.post("/addorder", orderTemp).then(response => {
+          this.orderId = response.data;
           let arrAjax = [];
-          for (let index = 0; index < this.allItems.length; index++) {
-            let arrAjax2 = {};
-            if (this.itemCount[index] != 0) {
-              arrAjax2["itemId"] = this.allItems[index].itemId;
-              arrAjax2["itemCount"] = this.itemCount[index];
-              arrAjax2["detailOrderid"] = response.data;
-              arrAjax.push(arrAjax2);
-            }
-          }
+          this.getItemCount(arrAjax, response.data);
           this.forAjax(arrAjax);
+        });
+      });
+    },
+    getItemCount(arrAjax, orderId) {
+      for (let index = 0; index < this.allItems.length; index++) {
+        let arrAjax2 = {};
+        if (this.itemCount[index] != 0) {
+          arrAjax2["itemId"] = this.allItems[index].itemId;
+          arrAjax2["itemCount"] = this.itemCount[index];
+          arrAjax2["detailOrderid"] = orderId;
+          arrAjax.push(arrAjax2);
+        }
+      }
+    },
+    // 直接删掉detail重新插入，不然又有更新又有新增很麻烦
+    creatUserOrder() {
+      let params = {
+        orderUserid: this.$route.params.userName,
+        orderNote: 0,
+        orderGoodscount: 0
+      };
+      this.sumCount(params);
+      this.$ajax.post("/addorder", params).then(response => {
+        this.orderId = response.data;
+        let arrAjax = [];
+        this.getItemCount(arrAjax, response.data);
+        this.forAjax(arrAjax);
+      });
+    },
+    updateUserOrder() {
+      let url = "/delorderdetail/" + this.orderId;
+      this.$ajax.get(url).then(response => {
+        console.log(response);
+        let params = {
+          orderUserid: this.$route.params.userName,
+          orderId: this.orderId,
+          orderNote: 0,
+          orderGoodscount: 0
+        };
+        this.sumCount(params);
+        this.$ajax.post("/updateorder", params).then(response => {
+          console.log(response);
+          let arrAjax = [];
+          this.getItemCount(arrAjax, this.orderId);
+          this.forAjax(arrAjax);
+        });
+      });
+    },
+    save() {
+      if (typeof this.orderId == "number") {
+        this.updateUserOrder();
+      } else if (!this.showFlag) {
+        this.creatOrder();
+      } else {
+        this.creatUserOrder();
+      }
+    },
+    sumCount(params) {
+      for (let index = 0; index < this.allItems.length; index++) {
+        params.orderNote +=
+          this.allItems[index].itemPrice * this.itemCount[index];
+        params.orderGoodscount += parseInt(this.itemCount[index]);
+      }
+    },
+    expireDel() {
+      let url = "/deleteorder/" + this.orderId;
+      let urlDetail = "/delorderdetail/" + this.orderId;
+      this.$ajax.post(url).then(res => {
+        if (res.data == 1) {
+          console.log("成功删除过期订单");
+        }
+        this.$ajax.post(urlDetail).then(res => {
+          if (res.data > 0) {
+            console.log("成功删除过期订单详情");
+          }
+          this.$router.push("/");
         });
       });
     }
