@@ -61,8 +61,6 @@ export default {
     return {
       selectFlag: -1,
       allUsers: this.$storage.get("allUsers"),
-      delKey: "需要删除的主键",
-      UpdateKey: "需要更新的主键",
       userTemp: {
         userName: "请输入用户姓名",
         userSex: "请输入用户性别",
@@ -76,9 +74,7 @@ export default {
     routerBack() {
       this.$router.back(-1);
     },
-    sleep(d) {
-      for (var t = Date.now(); Date.now() - t <= d; );
-    },
+    //操作后进行刷新、数据初始化
     reflash() {
       this.$ajax.get("/findAllUser/0").then(response => {
         this.allUsers = response.data;
@@ -90,19 +86,26 @@ export default {
         }
       });
     },
+    // 根据用户主键（用户ID）删除用户
     deleteUser() {
+      // 没选中就不继续删除了
+      if(this.selectFlag == -1){
+        return ;
+      }
       let urlTemp =
         "/deleteUserByPrimaryKey/" + this.allUsers[this.selectFlag].userId;
       this.$ajax.get(urlTemp).then(response => {
         if (response.data == 1) {
-          console.log("删除成功");
+          console.log("删除用户成功");
         } else {
-          console.log("删除失败");
+          console.log("删除用户失败");
         }
         this.reflash();
       });
     },
+    // 添加用户
     addUser() {
+      // 先判断用户是否存在，存在就改url，并加入userId进行更新，不存在就用默认url进行插入
       this.allUsers.forEach(element => {
         if (element.userName == this.userTemp.userName) {
           this.summitUrl = "/updateUser";
@@ -119,15 +122,19 @@ export default {
         this.reflash();
       });
     },
+    // 跳转订单列表页
     getOrderList() {
+      // 如果有选择就跳选中的用户的订单列表
       if (this.selectFlag != -1) {
         let url = "/findorder/" + this.allUsers[this.selectFlag].userId;
         this.$ajax.post(url).then(response => {
           this.$storage.set("allOrders", response.data);
-          // 路由跳转要写进axios的回调里
+          // 路由跳转要写进axios的回调里，不然跳过去了数据还没刷新
           this.$router.push({
             name: "orderlist",
             params: {
+              // 路由携带的信息也不一样，所以也分了两边写
+              // 如果有选中用户，就把信息带到下一页，然后展示出来
               userFlag: "show",
               userOrder: this.allUsers[this.selectFlag].userName,
               userId: this.allUsers[this.selectFlag].userId
@@ -145,6 +152,7 @@ export default {
       }
     },
     selectCssMethod(index) {
+      // 一方面用于动态样式，一方面作为选中用户标识
       if (this.selectFlag != index) {
         this.selectFlag = index;
       } else {

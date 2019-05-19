@@ -20,10 +20,8 @@
 </template>
 <script>
 export default {
-  data() {
-    return {};
-  },
   created() {
+    // 每次进首页都初始化三张总表
     this.$ajax.get("/findAllUser/0").then(response => {
       this.$storage.set("allUsers", response.data);
     });
@@ -52,6 +50,7 @@ el-col div {
   margin: 1rem;
 }
 .bg {
+  /* 背景图的css简单写法，宽高撑满，位置不动，设置置顶，不然会被标题的margin影响到 */
   background-image: url("../assets/jpg/background.png");
   background-size: 100% 100%;
   height: 100%;

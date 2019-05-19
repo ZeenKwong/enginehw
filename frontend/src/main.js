@@ -9,6 +9,7 @@ import './assets/font/font.css'
 import axios from 'axios'
 Vue.prototype.$ajax = axios
 axios.defaults.baseURL = "http://127.0.0.1:8080/"
+// axios.defaults.baseURL = "/apis/"
 // 封装localstorage方法，不然每次都要做json转换
 import storage from '@/assets/js/storage';
 Vue.prototype.$storage = storage
